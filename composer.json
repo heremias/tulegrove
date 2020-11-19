@@ -48,6 +48,7 @@
         "drupal/slick_paragraphs": "^2.0",
         "drupal/slick_views": "^2.3",
         "drupal/tailwindcss": "^2.7",
+        "drupal/thunder_admin": "4.x-dev",
         "drush/drush": "dev-master",
         "emulsify-ds/emulsify-drupal": "^2.0",
         "oomphinc/composer-installers-extender": "^2.0",

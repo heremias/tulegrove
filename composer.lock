@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "828b19d267c64339e7e2c4e54cb470c7",
+    "content-hash": "6b9bedc837bc30dea1ad03e3a18cf94d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2371,17 +2371,17 @@
         },
         {
             "name": "drupal/bootstrap_storybook",
-            "version": "3.1.6",
+            "version": "3.1.7",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/bootstrap_storybook.git",
-                "reference": "3.1.6"
+                "reference": "3.1.7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/bootstrap_storybook-3.1.6.zip",
-                "reference": "3.1.6",
-                "shasum": "284422f1e812a853ebf8be9ad212715d6595b53a"
+                "url": "https://ftp.drupal.org/files/projects/bootstrap_storybook-3.1.7.zip",
+                "reference": "3.1.7",
+                "shasum": "c9e809e01f08b1cfa8352e2743cf00883d9de86e"
             },
             "require": {
                 "drupal/components": "^2.0",
@@ -2393,8 +2393,8 @@
             "type": "drupal-theme",
             "extra": {
                 "drupal": {
-                    "version": "3.1.6",
-                    "datestamp": "1605138909",
+                    "version": "3.1.7",
+                    "datestamp": "1605397807",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Project has not opted into security advisory coverage!"
@@ -6177,29 +6177,26 @@
         },
         {
             "name": "drupal/thunder_admin",
-            "version": "4.0.0-beta2",
+            "version": "dev-4.x",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/thunder_admin.git",
-                "reference": "4.0.0-beta2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/thunder_admin-4.0.0-beta2.zip",
-                "reference": "4.0.0-beta2",
-                "shasum": "9d559c6116702b69e719ee74f8257ae1d1b46fd3"
+                "reference": "e9c13ebcdf89ebf92cdedc6badd77904861b2db8"
             },
             "require": {
                 "drupal/core": "^9"
             },
             "type": "drupal-theme",
             "extra": {
+                "branch-alias": {
+                    "dev-4.x": "4.x-dev"
+                },
                 "drupal": {
-                    "version": "4.0.0-beta2",
-                    "datestamp": "1598528935",
+                    "version": "4.x-dev",
+                    "datestamp": "1599136561",
                     "security-coverage": {
                         "status": "not-covered",
-                        "message": "Beta releases are not covered by Drupal security advisories."
+                        "message": "Dev releases are not covered by Drupal security advisories."
                     }
                 }
             },
@@ -6243,7 +6240,8 @@
             "homepage": "https://www.drupal.org/project/thunder_admin",
             "support": {
                 "source": "https://git.drupalcode.org/project/thunder_admin"
-            }
+            },
+            "time": "2020-11-02T08:04:20+00:00"
         },
         {
             "name": "drupal/token",
@@ -14382,6 +14380,7 @@
         "drupal/bulma": 5,
         "drupal/glisseo": 15,
         "drupal/slick_extras": 5,
+        "drupal/thunder_admin": 20,
         "drush/drush": 20
     },
     "prefer-stable": true,
