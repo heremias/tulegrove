@@ -56,4 +56,3 @@ jobs:
       node_js: 12
       script:
       - node -e "console.log('Hi from NodeJS!')"
-
