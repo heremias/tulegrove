@@ -47,3 +47,4 @@ script:
   # Run a single unit test to verfiy the testing setup.
   # - ./vendor/bin/phpunit -c ./web/core ./web/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php
   - ./vendor/bin/drush
+  - phantomjs testrunner.js
