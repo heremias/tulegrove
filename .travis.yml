@@ -16,10 +16,6 @@ env:
     - COMPOSER_MEMORY_LIMIT=-1
     - SIMPLETEST_DB=sqlite://tmp/site.sqlite
     - SIMPLETEST_BASE_URL="http://127.0.0.1:8080"
-  matrix:
-    - RELEASE=stable COMPOSER_CHANNEL=stable
-    # - RELEASE=dev COMPOSER_CHANNEL=stable
-    # - RELEASE=stable COMPOSER_CHANNEL=snapshot
 
 before_install:
   # https://www.drupal.org/project/drupal/issues/3107155
@@ -47,4 +43,16 @@ script:
   # Run a single unit test to verfiy the testing setup.
   # - ./vendor/bin/phpunit -c ./web/core ./web/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php
   - ./vendor/bin/drush
-  - phantomjs testrunner.js
+
+  
+jobs:
+  include:
+    - language: python
+      python: 3.8
+      script:
+      - python -c "print('Hi from Python!')"
+
+    - language: node_js
+      node_js: 12
+      script:
+      - node -e "console.log('Hi from NodeJS!')"
