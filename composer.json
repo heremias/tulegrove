@@ -39,6 +39,7 @@
         "drupal/bootstrap_storybook": "^3.1",
         "drupal/bulma": "^1.0@RC",
         "drupal/core-composer-scaffold": "^9.0",
+        "drupal/decoupled_pages": "^1.0",
         "drupal/devel": "^4.0",
         "drupal/drulma": "^1.7",
         "drupal/fortytwo": "^4.6",
