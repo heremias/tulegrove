@@ -14,10 +14,10 @@ DRUPAL_DOWNLOAD_VERIFY_CERT=${DRUPAL_DOWNLOAD_VERIFY_CERT:-true}
 DRUPAL_DOWNLOAD_METHOD=${DRUPAL_DOWNLOAD_METHOD:-tarball}
 
 # Drupal URLs and version options.
-DRUPAL_DOWNLOAD_URL="https://www.drupal.org/download-latest/tar.gz"
-DRUPAL_CLONE_URL=${DRUPAL_CLONE_URL:-"https://git.drupalcode.org/project/drupal.git"}
-DRUPAL_CLONE_BRANCH=${DRUPAL_CLONE_BRANCH:-"8.8.x"}
-DRUPAL_PROJECT_VERSION=${DRUPAL_PROJECT_VERSION:-"^8@dev"}
+DRUPAL_DOWNLOAD_URL="https://ftp.drupal.org/files/projects/thunder-6.0.3.tar.gz"
+DRUPAL_CLONE_URL=${DRUPAL_CLONE_URL:-"https://github.com/thunder/thunder-distribution.git"}
+DRUPAL_CLONE_BRANCH=${DRUPAL_CLONE_BRANCH:-"9.0.x"}
+DRUPAL_PROJECT_VERSION=${DRUPAL_PROJECT_VERSION:-"^9@dev"}
 
 # Allow container to skip the download by setting this to false.
 DRUPAL_DOWNLOAD_IF_NOT_PRESENT=${DRUPAL_DOWNLOAD_IF_NOT_PRESENT:-true}
@@ -55,7 +55,7 @@ if [ ! -f $APACHE_DOCUMENT_ROOT/index.php ] && [ $DRUPAL_DOWNLOAD_IF_NOT_PRESENT
     git clone --branch $DRUPAL_CLONE_BRANCH --single-branch $DRUPAL_CLONE_URL .
     echo "Clone complete!"
   elif [ "$DRUPAL_DOWNLOAD_METHOD" == 'composer' ]; then
-    composer -n create-project drupal/recommended-project:$DRUPAL_PROJECT_VERSION .
+    composer create-project thunder/thunder-project thunder --no-interaction --no-install
   fi
 
   echo "Configuring settings.php with environment variables..."
