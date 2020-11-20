@@ -1,11 +1,13 @@
+sudo: required
+group: deprecated
 language: php
-dist: xenial
+dist: trusty
 
 services:
   - mysql
 
 php:
-  - 7.3
+  - 7.4
 
 env:
   global:
