@@ -5,8 +5,8 @@
 
   vars:
     build_amd64: true
-    build_arm64: true
-    build_arm32: true
+    build_arm64: false
+    build_arm32: false
 
   tasks:
     - name: Build the x86 Docker image from the main Dockerfile.

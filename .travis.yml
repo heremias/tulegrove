@@ -1,15 +1,5 @@
-language: php
+os: linux
 dist: bionic
-sudo: false
-
-php:
-  - 7.4
-
-cache:
-  apt: true
-  directories:
-  - "$HOME/.composer/cache"
-  - "$HOME/.drush/cache"
 
 env:
   global:
@@ -17,40 +7,76 @@ env:
     - SIMPLETEST_DB=sqlite://tmp/site.sqlite
     - SIMPLETEST_BASE_URL="http://127.0.0.1:8080"
 
-before_install:
-  # https://www.drupal.org/project/drupal/issues/3107155
-  - sudo echo "deb http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse" >> /etc/apt/sources.list
-  - sudo apt-get update
-  - sudo apt-get -y install sqlite3/focal
-  - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - phpenv config-rm xdebug.ini
-  - composer --verbose self-update --$COMPOSER_CHANNEL
-  - composer --version
-  - source ./scripts/travis/01-setup-environment.sh
-
-install:
-  - composer --verbose validate
-  - composer --verbose install
-
-script:
-  - if [[ $RELEASE = dev ]]; then composer --verbose require --no-update drupal/core-recommended:9.0.x-dev; composer --verbose require --no-update --dev drupal/core-dev:9.0.x-dev; fi;
-  - if [[ $RELEASE = dev ]]; then composer --verbose update; fi;
-  # Installing thunder is the actual test
-  - bash -x -e ./scripts/travis/02-install-thunder.sh
-  # - ./vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite
-  # - ./vendor/bin/drush runserver $SIMPLETEST_BASE_URL &
-  # - until curl -s $SIMPLETEST_BASE_URL; do true; done > /dev/null
-  # Run a single unit test to verfiy the testing setup.
-  # - ./vendor/bin/phpunit -c ./web/core ./web/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php
-  - ./vendor/bin/drush
-
-  
 jobs:
   include:
+    - language: php
+      php: 7.4
+      cache:
+        apt: true
+        directories:
+        - "$HOME/.composer/cache"
+        - "$HOME/.drush/cache"
+      before_install:
+      # https://www.drupal.org/project/drupal/issues/3107155
+      - sudo echo "deb http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse" >> /etc/apt/sources.list
+      - sudo apt-get update
+      - sudo apt-get -y install sqlite3/focal
+      - echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+      - phpenv config-rm xdebug.ini
+      - composer --verbose self-update --$COMPOSER_CHANNEL
+      - composer --version
+      - source ./scripts/travis/01-setup-environment.sh
+      script:
+      - if [[ $RELEASE = dev ]]; then composer --verbose require --no-update drupal/core-recommended:9.0.x-dev; composer --verbose require --no-update --dev drupal/core-dev:9.0.x-dev; fi;
+      - if [[ $RELEASE = dev ]]; then composer --verbose update; fi;
+      # Installing thunder is the actual test
+      - bash -x -e ./scripts/travis/02-install-thunder.sh
+      # - ./vendor/bin/drush site-install --verbose --yes --db-url=sqlite://tmp/site.sqlite
+      # - ./vendor/bin/drush runserver $SIMPLETEST_BASE_URL &
+      # - until curl -s $SIMPLETEST_BASE_URL; do true; done > /dev/null
+      # Run a single unit test to verfiy the testing setup.
+      # - ./vendor/bin/phpunit -c ./web/core ./web/core/modules/user/tests/src/Unit/UserAccessControlHandlerTest.php
+      - ./vendor/bin/drush
+      install:
+      - composer --verbose validate
+      - composer --verbose install
+      
     - language: python
       python: 3.8
+      services: docker
+      env:
+      - COMPOSE_DIR=.
+      before_install:
+      # Stop MySQL.
+      - sudo service mysql stop
+
+      install:
+      # Install Ansible.
+      - pip install ansible docker
+
       script:
-      - python -c "print('Hi from Python!')"
+      # Build the Drupal environment.
+      - 'ansible-playbook main.yml --extra-vars "{build_arm32: false, build_arm64: false}"'
+
+      # Verify we get a response from the site.
+      - cd $COMPOSE_DIR
+      - docker-compose up -d
+      - |
+        attempts=0
+        max_attempts=60
+        echo "Waiting for Drupal to complete setup."
+        until $(curl --output /dev/null --silent --head --fail http://localhost/); do
+          if [ ${attempts} -eq ${max_attempts} ];then
+            echo "Timeout while waiting for Drupal to complete setup."
+            exit 1
+          fi
+          printf '.'
+          attempts=$(($attempts+1))
+          sleep 5
+        done
+      after_failure:
+      # Get logs after a failed run.
+      - docker-compose logs
 
     - language: node_js
       node_js: 12
