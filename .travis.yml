@@ -77,8 +77,3 @@ jobs:
       after_failure:
       # Get logs after a failed run.
       - docker-compose logs
-
-    - language: node_js
-      node_js: 12
-      script:
-      - node -e "console.log('Hi from NodeJS!')"
